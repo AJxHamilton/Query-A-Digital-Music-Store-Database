@@ -1,0 +1,38 @@
+ *Query 1*
+SELECT artist.Name, COUNT(track.TrackId) AS TrackCount
+FROM artist
+JOIN album ON artist.ArtistId = album.ArtistId
+JOIN track ON album.AlbumId = track.AlbumId
+GROUP BY artist.ArtistId
+ORDER BY TrackCount DESC
+LIMIT 5;
+
+*Query 2*
+SELECT g.name AS genre, SUM(il.quantity) AS total_sold
+FROM invoiceline il
+JOIN track t ON il.trackid = t.trackid
+JOIN genre g ON t.genreid = g.genreid
+GROUP BY genre
+ORDER BY total_sold DESC;
+
+*Query 3*
+SELECT 
+    c.CustomerId,
+    c.FirstName,
+    c.LastName,
+    COUNT(ii.InvoiceId) as TotalAlbumsBought
+FROM
+    Customer c
+    JOIN Invoice ii ON c.CustomerId = ii.CustomerId
+GROUP BY
+    c.CustomerId,
+    c.FirstName,
+    c.LastName
+ORDER BY
+    TotalAlbumsBought DESC
+
+*Query 4*
+ SELECT g.Name AS Genre, AVG(t.Milliseconds) / 60000.0 AS AverageLengthInMinutes
+FROM track t
+JOIN genre g ON t.GenreId = g.GenreId
+GROUP BY g.GenreId
